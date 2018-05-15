@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Contacts {
     public static void main(String[] args) {
@@ -6,6 +7,8 @@ public class Contacts {
     }
     private String names;
     private String number;
+    private ArrayList<String> contactsList = new ArrayList<>();
+    private ArrayList<String> contactsNumbers = new ArrayList<>();
 
     //-------constructor-------------
     public Contacts(){
@@ -14,6 +17,8 @@ public class Contacts {
     public Contacts(String name, String number){
         this.names = name;
         this.number = number;
+        contactsList.add(name);
+        contactsNumbers.add(number);
     }
 
     public String getNames() {

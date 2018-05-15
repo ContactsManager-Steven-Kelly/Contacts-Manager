@@ -18,6 +18,7 @@ public class ContactsMain {
         int choice = scan.nextInt();
         switch (choice) {
             case 1:
+                System.out.println();
                 break;
             case 2:
                 addNewContact();
@@ -51,6 +52,5 @@ public class ContactsMain {
             showMenu();
         }
     }
-
 
 }
