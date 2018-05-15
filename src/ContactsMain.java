@@ -1,6 +1,9 @@
+import util.Input;
+
 import java.util.Scanner;
 
 public class ContactsMain {
+    public static Input userInput = new Input();
     public static void main(String[] args) {
         showMenu();
         }
@@ -24,6 +27,8 @@ public class ContactsMain {
             case 4:
                 break;
             case 5:
+                System.out.println("Thank you for using Contact Manager 1.0");
+                System.exit(0);
                 break;
             default:
                 System.out.println("Not a valid choice");
@@ -31,17 +36,20 @@ public class ContactsMain {
         }
     }
     public static void addNewContact(){
-        Scanner scan = new Scanner(System.in);
+
         System.out.print("Please enter contacts name: ");
-        String name = scan.next();
+        String name = userInput.getString();
         System.out.println();
         System.out.print("Please enter contact number: ");
-        String number = scan.next();
+        String number = userInput.getString();
         Contacts newContact = new Contacts(name, number);
         System.out.println("Would you like to enter another name?");
-        String confirm = scan.next();
-
-        showMenu();
+        boolean confirm = userInput.yesNo();
+        if(confirm){
+            addNewContact();
+        }else {
+            showMenu();
+        }
     }
 
 
