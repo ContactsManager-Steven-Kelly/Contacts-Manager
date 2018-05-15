@@ -4,12 +4,31 @@ public class Contacts {
     public static void main(String[] args) {
 
     }
-    private ArrayList<String> names;
-    private ArrayList<String> number;
+    private String names;
+    private String number;
 
     //-------constructor-------------
-    public Contacts(ArrayList<String> name, ArrayList<String> number){
+    public Contacts(){
+        this("Default name", "Default number");
+    }
+    public Contacts(String name, String number){
         this.names = name;
+        this.number = number;
+    }
+
+    public String getNames() {
+        return names;
+    }
+
+    public String getNumber() {
+        return number;
+    }
+
+    public void setNames(String names) {
+        this.names = names;
+    }
+
+    public void setNumber(String number) {
         this.number = number;
     }
 }
