@@ -1,24 +1,20 @@
-import java.util.ArrayList;
-import java.util.HashMap;
-
-public class Contacts {
+public class Contact {
     public static void main(String[] args) {
 
     }
     private String names;
     private String number;
-    private ArrayList<String> contactsList = new ArrayList<>();
-    private ArrayList<String> contactsNumbers = new ArrayList<>();
+    private String contact;
+
 
     //-------constructor-------------
-    public Contacts(){
+    public Contact(){
         this("Default name", "Default number");
     }
-    public Contacts(String name, String number){
+    public Contact(String name, String number){
         this.names = name;
         this.number = number;
-        contactsList.add(name);
-        contactsNumbers.add(number);
+        this.contact = name + " " + number;
     }
 
     public String getNames() {
@@ -37,4 +33,7 @@ public class Contacts {
         this.number = number;
     }
 
+    public String getContact() {
+        return contact;
+    }
 }
