@@ -1,15 +1,20 @@
 import util.Input;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class ContactsMain {
     public static Input userInput = new Input();
+    public static ArrayList<Contact> contacts = new ArrayList<>();
     public static void main(String[] args) {
-        showMenu();
+showMenu();
+for(Contact contact: contacts)
+        System.out.println(contact.getNames() + " " + contact.getNumber());
+
         }
         public static void showMenu() {
         Scanner scan = new Scanner(System.in);
-        System.out.println("1. View Contacts.");
+        System.out.println("1. View Contact.");
         System.out.println("2. Add a new contact.");
         System.out.println("3. Search a contact by name.");
         System.out.println("4. Delete an existing contact.");
@@ -21,7 +26,10 @@ public class ContactsMain {
                 System.out.println();
                 break;
             case 2:
-                addNewContact();
+
+                Contact addContact = addNewContact();
+                contacts.add(addContact);
+
                 break;
             case 3:
                 break;
@@ -36,21 +44,18 @@ public class ContactsMain {
                 showMenu();
         }
     }
-    public static void addNewContact(){
+    public static Contact addNewContact(){
 
         System.out.print("Please enter contacts name: ");
         String name = userInput.getString();
         System.out.println();
         System.out.print("Please enter contact number: ");
         String number = userInput.getString();
-        Contacts newContact = new Contacts(name, number);
-        System.out.println("Would you like to enter another name?");
-        boolean confirm = userInput.yesNo();
-        if(confirm){
-            addNewContact();
-        }else {
-            showMenu();
-        }
+        Contact newContact = new Contact(name, number);
+
+        return newContact;
     }
+
+
 
 }
