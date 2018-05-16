@@ -6,13 +6,12 @@ import java.util.Scanner;
 public class ContactsMain {
     public static Input userInput = new Input();
     public static ArrayList<Contact> contacts = new ArrayList<>();
-    public static void main(String[] args) {
-showMenu();
-for(Contact contact: contacts)
-        System.out.println(contact.getNames() + " " + contact.getNumber());
 
-        }
-        public static void showMenu() {
+    public static void main(String[] args) {
+        showMenu();
+    }
+
+    public static void showMenu() {
         Scanner scan = new Scanner(System.in);
         System.out.println("1. View Contact.");
         System.out.println("2. Add a new contact.");
@@ -23,13 +22,12 @@ for(Contact contact: contacts)
         int choice = scan.nextInt();
         switch (choice) {
             case 1:
-                System.out.println();
+        for (Contact contact : contacts)
+            System.out.println(contact.getNames() + " " + contact.getNumber());
                 break;
             case 2:
-
-                Contact addContact = addNewContact();
-                contacts.add(addContact);
-
+                addNewContact();
+                again();
                 break;
             case 3:
                 break;
@@ -44,7 +42,8 @@ for(Contact contact: contacts)
                 showMenu();
         }
     }
-    public static Contact addNewContact(){
+
+    public static Contact addNewContact() {
 
         System.out.print("Please enter contacts name: ");
         String name = userInput.getString();
@@ -52,10 +51,21 @@ for(Contact contact: contacts)
         System.out.print("Please enter contact number: ");
         String number = userInput.getString();
         Contact newContact = new Contact(name, number);
-
+        contacts.add(newContact);
         return newContact;
     }
 
+    public static void again(){
+        System.out.println("Would you like to add another? ");
+        System.out.print("(yes or no): ");
+        boolean answer = userInput.yesNo();
+        if (answer){
+            addNewContact();
+            again();
+        }else {
+            showMenu();
+        }
+    }
 
 
 }

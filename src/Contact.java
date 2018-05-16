@@ -2,16 +2,18 @@ public class Contact {
     public static void main(String[] args) {
 
     }
+
     private String names;
     private String number;
     private String contact;
 
 
     //-------constructor-------------
-    public Contact(){
+    public Contact() {
         this("Default name", "Default number");
     }
-    public Contact(String name, String number){
+
+    public Contact(String name, String number) {
         this.names = name;
         this.number = number;
         this.contact = name + " " + number;
