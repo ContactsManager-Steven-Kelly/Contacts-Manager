@@ -1,13 +1,26 @@
 import util.Input;
-
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class ContactsMain {
     public static Input userInput = new Input();
     public static ArrayList<Contact> contacts = new ArrayList<>();
+    public static String directory = "data";
+    public static String filename = "contacts.txt";
 
     public static void main(String[] args) {
+        createFileIfNotExists(directory, filename);
+        try {
+           contacts = readLines(directory, filename);
+        }catch (Exception e){
+            System.out.println(e);
+        }
         showMenu();
     }
 
@@ -23,7 +36,12 @@ public class ContactsMain {
         switch (choice) {
             case 1:
         for (Contact contact : contacts)
-            System.out.println(contact.getNames() + " " + contact.getNumber());
+            try {
+                readLines(directory, filename);
+            }catch (Exception e){
+                System.out.println(e);
+            }
+            showMenu();
                 break;
             case 2:
                 addNewContact();
@@ -35,6 +53,11 @@ public class ContactsMain {
                 break;
             case 5:
                 System.out.println("Thank you for using Contact Manager 1.0");
+                try {
+                    writeListToFile(contacts, directory, filename);
+                }catch (Exception e){
+                    System.out.println(e);
+                }
                 System.exit(0);
                 break;
             default:
@@ -67,5 +90,43 @@ public class ContactsMain {
         }
     }
 
+    public static void createFileIfNotExists(String directory, String filename) {
+
+        Path dataDirectory = Paths.get(directory);
+        Path dataFile = Paths.get(directory, filename);
+
+        try {
+            if (Files.notExists(dataDirectory)) {
+                Files.createDirectories(dataDirectory);
+            }
+
+            if (Files.notExists(dataFile)) {
+                Files.createFile(dataFile);
+            }
+        } catch(IOException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public static void writeListToFile(ArrayList<Contact> contacts, String directory, String filename) throws IOException {
+            ArrayList<String> out = new ArrayList<>();
+        for (Contact contact: contacts){
+            out.add(contact.getNames() + contact.getNumber());
+        }
+        Path filepath = Paths.get(directory, filename);
+        Files.write(filepath, out);
+
+    }
+
+    public static void readLines(String directory, String filename) throws IOException {
+
+        Path filePath = Paths.get(directory, filename);
+
+        List<String> list = Files.readAllLines(filePath);
+
+        for(String item : list) {
+            System.out.println(item);
+        }
+    }
 
 }
