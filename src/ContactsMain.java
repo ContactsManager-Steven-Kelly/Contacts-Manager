@@ -1,4 +1,7 @@
 import util.Input;
+
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -11,18 +14,28 @@ import java.util.Scanner;
 public class ContactsMain {
     public static Input userInput = new Input();
     public static ArrayList<Contact> contacts = new ArrayList<>();
+    public static ArrayList<String> readArray = new ArrayList<>();
     public static String directory = "data";
     public static String filename = "contacts.txt";
 
     public static void main(String[] args) {
+
+
         createFileIfNotExists(directory, filename);
-        try {
-           contacts = readLines(directory, filename);
-        }catch (Exception e){
-            System.out.println(e);
-        }
+//        try
+//
+//    {
+//        contacts = readLines(directory, filename);
+//    } catch(
+//    Exception e)
+//
+//    {
+//        System.out.println(e);
+//    }
+
         showMenu();
     }
+
 
     public static void showMenu() {
         Scanner scan = new Scanner(System.in);
@@ -35,13 +48,13 @@ public class ContactsMain {
         int choice = scan.nextInt();
         switch (choice) {
             case 1:
-        for (Contact contact : contacts)
-            try {
-                readLines(directory, filename);
-            }catch (Exception e){
-                System.out.println(e);
-            }
-            showMenu();
+//                for (Contact contact : contacts)
+                try {
+                    readLines(directory, filename);
+                } catch (Exception e) {
+                    System.out.println(e);
+                }
+                showMenu();
                 break;
             case 2:
                 addNewContact();
@@ -55,7 +68,7 @@ public class ContactsMain {
                 System.out.println("Thank you for using Contact Manager 1.0");
                 try {
                     writeListToFile(contacts, directory, filename);
-                }catch (Exception e){
+                } catch (Exception e) {
                     System.out.println(e);
                 }
                 System.exit(0);
@@ -78,14 +91,14 @@ public class ContactsMain {
         return newContact;
     }
 
-    public static void again(){
+    public static void again() {
         System.out.println("Would you like to add another? ");
         System.out.print("(yes or no): ");
         boolean answer = userInput.yesNo();
-        if (answer){
+        if (answer) {
             addNewContact();
             again();
-        }else {
+        } else {
             showMenu();
         }
     }
@@ -103,18 +116,18 @@ public class ContactsMain {
             if (Files.notExists(dataFile)) {
                 Files.createFile(dataFile);
             }
-        } catch(IOException e) {
+        } catch (IOException e) {
             System.out.println(e.getMessage());
         }
     }
 
     public static void writeListToFile(ArrayList<Contact> contacts, String directory, String filename) throws IOException {
-            ArrayList<String> out = new ArrayList<>();
-        for (Contact contact: contacts){
-            out.add(contact.getNames() + contact.getNumber());
+        ArrayList<String> out = new ArrayList<>();
+        for (Contact contact : contacts) {
+            out.add(contact.getNames() + " " + contact.getNumber());
         }
         Path filepath = Paths.get(directory, filename);
-        Files.write(filepath, out);
+        Files.write(filepath, out, StandardOpenOption.APPEND);
 
     }
 
@@ -124,7 +137,8 @@ public class ContactsMain {
 
         List<String> list = Files.readAllLines(filePath);
 
-        for(String item : list) {
+        for (String item : list) {
+            readArray.add(item);
             System.out.println(item);
         }
     }
