@@ -48,12 +48,7 @@ public class ContactsMain {
         int choice = scan.nextInt();
         switch (choice) {
             case 1:
-//                for (Contact contact : contacts)
-                try {
-                    readLines(directory, filename);
-                } catch (Exception e) {
-                    System.out.println(e);
-                }
+                viewAllContacts();
                 showMenu();
                 break;
             case 2:
@@ -76,6 +71,19 @@ public class ContactsMain {
             default:
                 System.out.println("Not a valid choice");
                 showMenu();
+        }
+    }
+
+    public static void viewAllContacts() {
+
+        try {
+            System.out.println("Name            |  Phone Number  |");
+            readLines(directory, filename);
+            for (Contact contact : contacts) {
+                System.out.println(contact.getNames() + " " + contact.getNumber());
+            }
+        } catch (Exception e) {
+            System.out.println(e);
         }
     }
 
