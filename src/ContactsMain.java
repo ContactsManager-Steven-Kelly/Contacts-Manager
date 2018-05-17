@@ -14,7 +14,6 @@ import java.util.Scanner;
 public class ContactsMain {
     public static Input userInput = new Input();
     public static ArrayList<Contact> contacts = new ArrayList<>();
-    public static ArrayList<String> readArray = new ArrayList<>();
     public static String directory = "data";
     public static String filename = "contacts.txt";
 
@@ -23,7 +22,6 @@ public class ContactsMain {
 
         createFileIfNotExists(directory, filename);
 //        try
-//
 //    {
 //        contacts = readLines(directory, filename);
 //    } catch(
@@ -46,14 +44,21 @@ public class ContactsMain {
         System.out.println("5. Exit");
         System.out.print("Enter an option(1, 2, 3, 4, 5):");
         int choice = scan.nextInt();
+        System.out.println();
         switch (choice) {
             case 1:
                 viewAllContacts();
+                System.out.println("\n");
                 showMenu();
                 break;
             case 2:
                 addNewContact();
                 again();
+                try {
+                    writeListToFile(contacts, directory, filename);
+                } catch (Exception e) {
+                    System.out.println(e);
+                }
                 break;
             case 3:
                 break;
@@ -91,7 +96,6 @@ public class ContactsMain {
 
         System.out.print("Please enter contacts name: ");
         String name = userInput.getString();
-        System.out.println();
         System.out.print("Please enter contact number: ");
         String number = userInput.getString();
         Contact newContact = new Contact(name, number);
@@ -135,7 +139,7 @@ public class ContactsMain {
             out.add(contact.getNames() + " " + contact.getNumber());
         }
         Path filepath = Paths.get(directory, filename);
-        Files.write(filepath, out, StandardOpenOption.APPEND);
+        Files.write(filepath, out);
 
     }
 
@@ -145,10 +149,10 @@ public class ContactsMain {
 
         List<String> list = Files.readAllLines(filePath);
 
-        for (String item : list) {
-            readArray.add(item);
-            System.out.println(item);
-        }
+//        for (List Contact : contacts) {
+//            contacts.add(item);
+//            System.out.println(item);
+//        }
     }
 
 }
