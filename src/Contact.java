@@ -13,7 +13,10 @@ public class Contact {
     public Contact(String name, String number) {
         this.names = name;
         this.number = number;
-        this.contact = name + ", " + number;
+        this.contact = name + ": " + number;
+    }
+    public String getContact() {
+        return contact;
     }
     public String getNames() {
         return names;
@@ -26,9 +29,6 @@ public class Contact {
     }
     public void setNumber(String number) {
         this.number = number;
-    }
-    public String getContact() {
-        return contact;
     }
 
 //    public String convert(){
