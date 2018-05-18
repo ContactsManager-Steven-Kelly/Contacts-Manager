@@ -18,7 +18,6 @@ public class ContactsMain {
     public static ArrayList<Contact> contacts = new ArrayList<>();
     public static String directory = "data";
     public static String filename = "contacts.txt";
-
     public static void main(String[] args) {
 
         try {
@@ -59,6 +58,10 @@ public class ContactsMain {
                 }
                 break;
             case 3:
+                System.out.print("Who would you like to search for?");
+                String search = userInput.getString();
+                searchArray(search);
+                showMenu();
                 break;
             case 4:
                 break;
@@ -161,4 +164,29 @@ public class ContactsMain {
         }
     }
 
+    public static void searchArray(String search) {
+        boolean searching = true;
+        while (searching) {
+            int counter = 0;
+            for (Contact contact : contacts) {
+                String contactString = contact.getNames();
+                String contactInfo = contact.getContact();
+                if (contactString.equals(search)) {
+                    System.out.println(contactInfo);
+                    System.out.println();
+                    searching = false;
+                }else {
+                    counter += 1;
+                if (counter == contacts.size()){
+                    System.out.println("That name wasn't found.");
+                    System.out.println();
+                  searching = false;
+                }else{
+                    searching = true;
+                }
+                }
+            }
+
+        }
+    }
 }
