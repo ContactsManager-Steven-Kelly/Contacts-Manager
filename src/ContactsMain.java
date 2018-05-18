@@ -1,6 +1,8 @@
+import jdk.nashorn.api.tree.LiteralTree;
 import util.Input;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -19,17 +21,13 @@ public class ContactsMain {
 
     public static void main(String[] args) {
 
-
+        try {
+            readLines(directory, filename);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         createFileIfNotExists(directory, filename);
-//        try
-//    {
-//        contacts = readLines(directory, filename);
-//    } catch(
-//    Exception e)
-//
-//    {
-//        System.out.println(e);
-//    }
+
 
         showMenu();
     }
@@ -83,7 +81,7 @@ public class ContactsMain {
 
         try {
             System.out.println("Name            |  Phone Number  |");
-            readLines(directory, filename);
+//            readLines(directory, filename);
             for (Contact contact : contacts) {
                 System.out.println(contact.getNames() + " " + contact.getNumber());
             }
@@ -147,12 +145,20 @@ public class ContactsMain {
 
         Path filePath = Paths.get(directory, filename);
 
-        List<String> list = Files.readAllLines(filePath);
+         List<String> items = Files.readAllLines(filePath);
 
-//        for (List Contact : contacts) {
-//            contacts.add(item);
-//            System.out.println(item);
-//        }
+        Scanner txtInput = new Scanner(new File("data/contacts.txt"));
+        while (txtInput.hasNext()){
+            Contact contact = new Contact(txtInput.next(), txtInput.next());
+            contacts.add(contact);
+        }
+        txtInput.close();
+
+
+
+        for (String item : items) {
+            System.out.println(item);
+        }
     }
 
 }
