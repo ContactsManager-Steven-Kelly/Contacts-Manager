@@ -51,12 +51,6 @@ public class ContactsMain {
                 break;
             case 2:
                 addNewContact();
-                again();
-                try {
-                    writeListToFile(contacts, directory, filename);
-                } catch (Exception e) {
-                    System.out.println(e);
-                }
                 break;
             case 3:
                 System.out.print("Who would you like to search for?");
@@ -113,6 +107,13 @@ public class ContactsMain {
         String number = userInput.getString();
         Contact newContact = new Contact(name, number);
         contacts.add(newContact);
+        try {
+            writeListToFile(contacts, directory, filename);
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+            again();
+
         return newContact;
     }
 
@@ -122,7 +123,6 @@ public class ContactsMain {
         boolean answer = userInput.yesNo();
         if (answer) {
             addNewContact();
-            again();
         } else {
             showMenu();
         }
