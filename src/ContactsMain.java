@@ -29,6 +29,7 @@ public class ContactsMain {
 
 
         showMenu();
+
     }
 
 
@@ -60,10 +61,20 @@ public class ContactsMain {
             case 3:
                 System.out.print("Who would you like to search for?");
                 String search = userInput.getString();
-                searchArray(search);
+                System.out.println();
+                System.out.println(searchArray(search));
                 showMenu();
                 break;
             case 4:
+                viewAllContacts();
+                String deleteChoice = userInput.getString("Which contact do you want to delete");
+                deleteContact(deleteChoice);
+                try {
+                    writeListToFile(contacts, directory, filename);
+                } catch (Exception e) {
+                    System.out.println(e);
+                }
+                showMenu();
                 break;
             case 5:
                 System.out.println("Thank you for using Contact Manager 1.0");
@@ -85,6 +96,7 @@ public class ContactsMain {
         try {
             System.out.println("Name            |  Phone Number  |");
 //            readLines(directory, filename);
+
             for (Contact contact : contacts) {
                 System.out.println(contact.getNames() + " " + contact.getNumber());
             }
@@ -146,9 +158,9 @@ public class ContactsMain {
 
     public static void readLines(String directory, String filename) throws IOException {
 
-        Path filePath = Paths.get(directory, filename);
+//        Path filePath = Paths.get(directory, filename);
 
-         List<String> items = Files.readAllLines(filePath);
+//         List<String> items = Files.readAllLines(filePath);
 
         Scanner txtInput = new Scanner(new File("data/contacts.txt"));
         while (txtInput.hasNext()){
@@ -159,21 +171,22 @@ public class ContactsMain {
 
 
 
-        for (String item : items) {
-            System.out.println(item);
-        }
+//        for (String item : items) {
+//            System.out.println(item);
+//        }
     }
 
-    public static void searchArray(String search) {
+    public static String searchArray(String search) {
         boolean searching = true;
+        String info = "";
         while (searching) {
             int counter = 0;
             for (Contact contact : contacts) {
                 String contactString = contact.getNames();
                 String contactInfo = contact.getContact();
-                if (contactString.equals(search)) {
-                    System.out.println(contactInfo);
+                if (contactString.equalsIgnoreCase(search)) {
                     System.out.println();
+                    info = contactInfo;
                     searching = false;
                 }else {
                     counter += 1;
@@ -181,12 +194,18 @@ public class ContactsMain {
                     System.out.println("That name wasn't found.");
                     System.out.println();
                   searching = false;
-                }else{
-                    searching = true;
                 }
                 }
             }
 
         }
+        return info;
+
+
+    }
+
+    public static void deleteContact(String search){
+        String contact = searchArray(search);
+        contacts.remove(contact.indexOf(contact));
     }
 }
