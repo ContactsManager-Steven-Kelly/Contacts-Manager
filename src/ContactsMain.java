@@ -1,16 +1,11 @@
-import jdk.nashorn.api.tree.LiteralTree;
 import util.Input;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 
 public class ContactsMain {
@@ -18,10 +13,11 @@ public class ContactsMain {
     public static ArrayList<Contact> contacts = new ArrayList<>();
     public static String directory = "data";
     public static String filename = "contacts.txt";
+
     public static void main(String[] args) {
 
         try {
-            readLines(directory, filename);
+            readLines();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -53,22 +49,14 @@ public class ContactsMain {
                 addNewContact();
                 break;
             case 3:
-                System.out.print("Who would you like to search for?");
-                String search = userInput.getString();
-                System.out.println();
-                System.out.println(searchArray(search));
+
+                searchArray();
                 showMenu();
                 break;
             case 4:
                 viewAllContacts();
-                String deleteChoice = userInput.getString("Which contact do you want to delete");
-                deleteContact(deleteChoice);
-                try {
-                    writeListToFile(contacts, directory, filename);
-                } catch (Exception e) {
-                    System.out.println(e);
-                }
-                showMenu();
+                deleteContact();
+
                 break;
             case 5:
                 System.out.println("Thank you for using Contact Manager 1.0");
@@ -89,10 +77,8 @@ public class ContactsMain {
 
         try {
             System.out.println("Name            |  Phone Number  |");
-//            readLines(directory, filename);
-
             for (Contact contact : contacts) {
-                System.out.println(contact.getNames() + " " + contact.getNumber());
+                System.out.println(contact.getContact());
             }
         } catch (Exception e) {
             System.out.println(e);
@@ -101,18 +87,20 @@ public class ContactsMain {
 
     public static Contact addNewContact() {
 
-        System.out.print("Please enter contacts name: ");
-        String name = userInput.getString();
+        System.out.print("Please enter contacts first name: ");
+        String firstName = userInput.getString();
+        System.out.print("Last name: ");
+        String lastName = userInput.getString();
         System.out.print("Please enter contact number: ");
         String number = userInput.getString();
-        Contact newContact = new Contact(name, number);
+        Contact newContact = new Contact(firstName, lastName, number);
         contacts.add(newContact);
         try {
             writeListToFile(contacts, directory, filename);
         } catch (Exception e) {
             System.out.println(e);
         }
-            again();
+        again();
 
         return newContact;
     }
@@ -149,63 +137,68 @@ public class ContactsMain {
     public static void writeListToFile(ArrayList<Contact> contacts, String directory, String filename) throws IOException {
         ArrayList<String> out = new ArrayList<>();
         for (Contact contact : contacts) {
-            out.add(contact.getNames() + " " + contact.getNumber());
+            out.add(contact.getContact());
         }
         Path filepath = Paths.get(directory, filename);
         Files.write(filepath, out);
 
     }
 
-    public static void readLines(String directory, String filename) throws IOException {
+    public static void readLines() throws IOException {
 
-//        Path filePath = Paths.get(directory, filename);
-
-//         List<String> items = Files.readAllLines(filePath);
 
         Scanner txtInput = new Scanner(new File("data/contacts.txt"));
-        while (txtInput.hasNext()){
-            Contact contact = new Contact(txtInput.next(), txtInput.next());
+        while (txtInput.hasNext()) {
+            Contact contact = new Contact(txtInput.next(), txtInput.next(), txtInput.next());
             contacts.add(contact);
         }
         txtInput.close();
 
-
-
-//        for (String item : items) {
-//            System.out.println(item);
-//        }
     }
 
-    public static String searchArray(String search) {
+    public static void searchArray() {
+        System.out.print("Who would you like to search for: ");
+        String search = userInput.getString();
+
+
         boolean searching = true;
         String info = "";
         while (searching) {
             int counter = 0;
             for (Contact contact : contacts) {
-                String contactString = contact.getNames();
+                String contactString = contact.getFirstName();
                 String contactInfo = contact.getContact();
-                if (contactString.equalsIgnoreCase(search)) {
+                if (contactString.toLowerCase().contains(search.toLowerCase())) {
                     System.out.println();
                     info = contactInfo;
                     searching = false;
-                }else {
+                } else {
                     counter += 1;
-                if (counter == contacts.size()){
-                    System.out.println("That name wasn't found.");
-                    System.out.println();
-                  searching = false;
-                }
+                    if (counter == contacts.size()) {
+                        System.out.println("That name wasn't found.");
+                        System.out.println();
+                        searching = false;
+                    }
                 }
             }
 
         }
-        return info;
+        System.out.println(info);
 
 
     }
 
-    public static void deleteContact(String search){
-        String contact = searchArray(search);
-        contacts.remove(contact.indexOf(contact));
+    public static void deleteContact() {
+        String search = userInput.getString("Which contact do you want to delete");
+        int delete = 0;
+        for (Contact contact : contacts) {
+            String compareString = contact.getFirstName();
+            if (compareString.toLowerCase().contains(search.toLowerCase())) {
+                delete = contacts.indexOf(contact);
+            }
+        }
+        contacts.remove(delete);
+        showMenu();
+
     }
 }

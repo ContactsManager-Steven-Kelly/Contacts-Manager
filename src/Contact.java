@@ -3,32 +3,42 @@ public class Contact {
 
     }
 
-    private String names;
+    private String firstName;
+    private String lastName;
     private String number;
     private String contact;
 
 
     //-------constructor-------------
 
-    public Contact(String name, String number) {
-        this.names = name;
+    public Contact(String firstName, String lastName, String number) {
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.number = number;
-        this.contact = name + ": " + number;
+        this.contact = firstName + " " + lastName + " " + number;
     }
     public String getContact() {
         return contact;
     }
-    public String getNames() {
-        return names;
+    public String getFirstName() {
+        return firstName;
     }
     public String getNumber() {
         return number;
     }
-    public void setNames(String names) {
-        this.names = names;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
     public void setNumber(String number) {
         this.number = number;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
 //    public String convert(){
